@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('store_ballance_histories', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('store_id');
-            $table->foreign('store_id')->references('id')->on('stores')->cascadeOnDelete();
+            $table->uuid('store_balance_id');
+            $table->foreign('store_balance_id')->references('id')->on('store_ballances')->cascadeOnDelete();
             $table->enum('type', ['income', 'withdraw']);
             $table->uuid('reference_id');
             $table->string('reference_type');
