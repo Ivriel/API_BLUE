@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('store_ballances', function (Blueprint $table) {
+        Schema::create('store_balances', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('store_id');
             $table->foreign('store_id')->references('id')->on('stores')->cascadeOnDelete();
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('store_ballances');
+        Schema::dropIfExists('store_balances');
     }
 };

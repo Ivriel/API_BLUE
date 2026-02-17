@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('store_ballance_histories', function (Blueprint $table) {
+        Schema::create('store_balance_histories', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('store_balance_id');
-            $table->foreign('store_balance_id')->references('id')->on('store_ballances')->cascadeOnDelete();
+            $table->foreign('store_balance_id')->references('id')->on('store_balances')->cascadeOnDelete();
             $table->enum('type', ['income', 'withdraw']);
             $table->uuid('reference_id');
             $table->string('reference_type');
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('store_ballance_histories');
+        Schema::dropIfExists('store_balance_histories');
     }
 };

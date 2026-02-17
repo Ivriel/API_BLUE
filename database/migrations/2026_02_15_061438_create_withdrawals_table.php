@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('withdrawals', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('store_balance_id');
-            $table->foreign('store_balance_id')->references('id')->on('store_ballances')->cascadeOnDelete();
+            $table->foreign('store_balance_id')->references('id')->on('store_balances')->cascadeOnDelete();
             $table->decimal('amount', 26, 2);
             $table->string('bank_account_name');
             $table->string('bank_account_number');
