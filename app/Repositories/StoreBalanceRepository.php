@@ -11,10 +11,9 @@ class StoreBalanceRepository implements StoreBalanceRepositoryInterface
 {
     public function getAll(?string $search, ?int $limit, bool $execute)
     {
-        // buat query dimana query akan mencari user berdasarkan kolom search yang sudah didefinisikan
         $query = StoreBalance::where(function ($query) use ($search) {
             if ($search) {
-                $query->search($search); // ini dari scope search di model User.php
+                $query->search($search);
             }
         })->with(['storeBalanceHistories']);
 
@@ -42,8 +41,7 @@ class StoreBalanceRepository implements StoreBalanceRepositoryInterface
 
     public function getById(string $id)
     {
-        // ambil dompet toko berdasarkan id toko (store_id)
-        $query = StoreBalance::where('store_id', $id)->with(['storeBalanceHistories']);
+        $query = StoreBalance::where('id', $id)->with(['storeBalanceHistories']);
 
         return $query->first();
     }

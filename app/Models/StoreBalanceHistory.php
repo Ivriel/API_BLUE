@@ -23,6 +23,18 @@ class StoreBalanceHistory extends Model
         'amount' => 'decimal:2',
     ];
 
+    public function scopeSearch($query, $search)
+    {
+        $query->where(function ($query) use ($search) {
+            $query->where('store_balance_id', 'like', "%{$search}%")
+                ->orWhere('type', 'like', "%{$search}%")
+                ->orWhere('reference_id', 'like', "%{$search}%")
+                ->orWhere('reference_type', 'like', "%{$search}%")
+                ->orWhere('amount', 'like', "%{$search}%")
+                ->orWhere('remarks', 'like', "%{$search}%");
+        });
+    }
+
     public function storeBalance()
     {
         return $this->belongsTo(StoreBalance::class);
