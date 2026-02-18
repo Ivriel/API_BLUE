@@ -15,9 +15,9 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->uuid('store_balance_id');
             $table->foreign('store_balance_id')->references('id')->on('store_balances')->cascadeOnDelete();
-            $table->enum('type', ['income', 'withdraw']);
-            $table->uuid('reference_id');
-            $table->string('reference_type');
+            $table->enum('type', ['income', 'withdraw', 'initial']);
+            $table->uuid('reference_id')->nullable();
+            $table->string('reference_type')->nullable();
             $table->decimal('amount', 26, 2);
             $table->string('remarks');
             $table->timestamps();

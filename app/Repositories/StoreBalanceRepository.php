@@ -16,7 +16,7 @@ class StoreBalanceRepository implements StoreBalanceRepositoryInterface
             if ($search) {
                 $query->search($search); // ini dari scope search di model User.php
             }
-        });
+        })->with(['storeBalanceHistories']);
 
         if ($limit) {
             $query->take($limit); // hanya akan mengambil sejumlah limit
@@ -43,7 +43,7 @@ class StoreBalanceRepository implements StoreBalanceRepositoryInterface
     public function getById(string $id)
     {
         // ambil dompet toko berdasarkan id toko (store_id)
-        $query = StoreBalance::where('store_id', $id);
+        $query = StoreBalance::where('store_id', $id)->with(['storeBalanceHistories']);
 
         return $query->first();
     }
