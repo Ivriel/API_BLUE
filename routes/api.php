@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BuyerController;
 use App\Http\Controllers\StoreBalanceController;
 use App\Http\Controllers\StoreBalanceHistoryController;
 use App\Http\Controllers\StoreController;
@@ -23,3 +24,6 @@ Route::get('store-balance-history/all/paginated', [StoreBalanceHistoryController
 Route::apiResource('withdrawal', WithdrawalController::class)->except('update', 'destroy');
 Route::get('withdrawal/all/paginated', [WithdrawalController::class, 'getAllPaginated']);
 Route::post('withdrawal/{id}/approve', [WithdrawalController::class, 'approve']);
+
+Route::apiResource('buyer', BuyerController::class);
+Route::get('buyer/all/paginated', [BuyerController::class, 'getAllPaginated']);
