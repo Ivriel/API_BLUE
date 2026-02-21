@@ -58,8 +58,11 @@ return [
             'prefix_indexes' => true,
             'strict' => true,
             'engine' => null,
+            'sticky' => true,
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 \PDO::MYSQL_ATTR_SSL_CA => base_path(env('MYSQL_ATTR_SSL_CA')),
+                \PDO::ATTR_PERSISTENT => false,
+                \PDO::ATTR_TIMEOUT => 60,
             ]) : [],
         ],
 
