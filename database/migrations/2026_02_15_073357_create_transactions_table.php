@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->string('code')->unique();
             $table->uuid('buyer_id');
             $table->foreign('buyer_id')->references('id')->on('buyers')->cascadeOnDelete();
             $table->uuid('store_id');

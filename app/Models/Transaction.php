@@ -3,13 +3,15 @@
 namespace App\Models;
 
 use App\Traits\UUID;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Transaction extends Model
 {
-    use UUID;
+    use HasFactory,UUID;
 
     protected $fillable = [
+        'code',
         'address_id',
         'buyer_id',
         'store_id',
@@ -19,10 +21,21 @@ class Transaction extends Model
         'shipping',
         'shipping_type',
         'shipping_cost',
+        'tracking_number',
+        'delivery_proof',
+        'delivery_status',
         'tax',
         'grand_total',
         'payment_status',
     ];
+
+    public function scopeSearch($query, $search)
+    {
+        return $query->where('code', 'like', '%'.$search.'%')
+            ->orWhere('city', 'like', '%'.$search.'%')
+            ->orWhere('payment_status', 'like', '%'.$search.'%')
+            ->orWhere('address', 'like', '%'.$search.'%');
+    }
 
     protected $casts = [
         'shipping_cost' => 'decimal:2',

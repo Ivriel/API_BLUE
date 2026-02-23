@@ -30,7 +30,7 @@ class ProductFactory extends Factory
             'store_id' => Store::factory(),
             'product_category_id' => ProductCategory::inRandomOrder()->first()->id,
             'name' => $name,
-            'slug' => Str::slug($name),
+            'slug' => Str::slug($name).'-'.Str::random(6),
             'description' => $this->faker->paragraphs(rand(2, 4), true),
             'condition' => $this->faker->randomElement($conditions),
             'price' => $this->faker->randomFloat(2, 10000, 10000000),
