@@ -7,14 +7,24 @@ use App\Http\Requests\ProductReviewStoreRequest;
 use App\Http\Resources\ProductReviewResource;
 use App\Interfaces\ProductReviewRepositoryInterface;
 use Exception;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+use Spatie\Permission\Middleware\PermissionMiddleware;
 
-class ProductReviewController extends Controller
+class ProductReviewController extends Controller implements HasMiddleware
 {
     private ProductReviewRepositoryInterface $productReviewRepository;
 
     public function __construct(ProductReviewRepositoryInterface $productReviewRepository)
     {
         $this->productReviewRepository = $productReviewRepository;
+    }
+
+    public static function middleware()
+    {
+        return [
+            new Middleware(PermissionMiddleware::using(['product-review-create']), only: ['store']),
+        ];
     }
 
     public function store(ProductReviewStoreRequest $request)

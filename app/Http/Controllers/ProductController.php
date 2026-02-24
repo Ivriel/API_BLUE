@@ -10,14 +10,27 @@ use App\Http\Resources\ProductResource;
 use App\Interfaces\ProductRepositoryInterface;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+use Spatie\Permission\Middleware\PermissionMiddleware;
 
-class ProductController extends Controller
+class ProductController extends Controller implements HasMiddleware
 {
     private ProductRepositoryInterface $productRepository;
 
     public function __construct(ProductRepositoryInterface $productRepository)
     {
         $this->productRepository = $productRepository;
+    }
+
+    public static function middleware()
+    {
+        return [
+            new Middleware(PermissionMiddleware::using(['product-list|product-create|product-edit|product-delete']), only: ['index', 'getAllPaginated', 'show', 'showBySlug']),
+            new Middleware(PermissionMiddleware::using(['product-create']), only: ['store']),
+            new Middleware(PermissionMiddleware::using(['product-edit']), only: ['update']),
+            new Middleware(PermissionMiddleware::using(['product-delete']), only: ['destroy']),
+        ];
     }
 
     /**

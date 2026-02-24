@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
             'email' => 'admin@blue.com',
             'email_verified_at' => now(),
             'password' => bcrypt('password'),
-        ]);
+        ])->assignRole('admin');
         UserFactory::new()->count(15)->create();
     }
 }

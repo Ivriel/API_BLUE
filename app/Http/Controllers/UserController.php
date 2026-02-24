@@ -10,14 +10,27 @@ use App\Http\Resources\UserResource;
 use App\Interfaces\UserRepositoryInterface;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+use Spatie\Permission\Middleware\PermissionMiddleware;
 
-class UserController extends Controller
+class UserController extends Controller implements HasMiddleware
 {
     private UserRepositoryInterface $userRepository;
 
     public function __construct(UserRepositoryInterface $userRepository)
     {
         $this->userRepository = $userRepository;
+    }
+
+    public static function middleware()
+    {
+        return [
+            new Middleware(PermissionMiddleware::using(['user-list|user-create|user-edit|user-delete']), only: ['index', 'getAllPaginated', 'show']),
+            new Middleware(PermissionMiddleware::using(['user-create']), only: ['store']),
+            new Middleware(PermissionMiddleware::using(['user-edit']), only: ['update']),
+            new Middleware(PermissionMiddleware::using(['user-delete']), only: ['destroy']),
+        ];
     }
 
     /**
