@@ -65,7 +65,7 @@ class TransactionRepository implements TransactionRepositoryInterface
 
         try {
             $transaction = new Transaction;
-            $transaction->code = 'TRX - '.str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
+            $transaction->code = 'TRX-'.str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
             $transaction->buyer_id = $data['buyer_id'];
             $transaction->store_id = $data['store_id'];
             $transaction->address_id = $data['address_id'];
@@ -155,7 +155,7 @@ class TransactionRepository implements TransactionRepositoryInterface
         $destination = $data['address_id'];
 
         $response = Http::withHeaders([
-            'key' => env('KEY_RAJA_ONGKIR'),
+            'key' => 'LdxaOdZx7940f2f50621abaeBKf4oeJh',
             'Content-Type' => 'application/x-www-form-urlencoded',
         ])->asForm()->post('https://rajaongkir.komerce.id/api/v1/calculate/domestic-cost', [
             'origin' => $origin,
