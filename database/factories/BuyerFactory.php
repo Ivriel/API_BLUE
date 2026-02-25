@@ -26,7 +26,11 @@ class BuyerFactory extends Factory
 
         return [
             'id' => (string) Str::uuid(),
-            'user_id' => User::factory(),
+            'user_id' => User::factory()->hasAttached(
+                config('permission.models.role')::where('name', 'buyer')->first(),
+                [],
+                'roles'
+            ),
             'profile_picture' => $imageHelper->storeAndResizeImage(
                 $imageHelper->createDummyImageWithTextSizeAndPosition(250, 250, 'center', 'center', 'random', 'medium'),
                 'buyer',

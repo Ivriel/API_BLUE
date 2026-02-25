@@ -26,7 +26,11 @@ class StoreFactory extends Factory
 
         return [
             'id' => (string) Str::uuid(),
-            'user_id' => User::factory(),
+            'user_id' => User::factory()->hasAttached(
+                config('permission.models.role')::where('name', 'store')->first(),
+                [],
+                'roles'
+            ),
             'name' => $this->faker->company(),
             'logo' => $imageHelper->storeAndResizeImage(
                 $imageHelper->createDummyImageWithTextSizeAndPosition(250, 250, 'center', 'center', 'random', 'medium'),

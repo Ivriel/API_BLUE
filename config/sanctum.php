@@ -47,7 +47,7 @@ return [
     |
     */
 
-    'expiration' => null,
+    'expiration' => (int) env('SANCTUM_EXPIRATION', 1440), // dalam satuan menit
 
     /*
     |--------------------------------------------------------------------------

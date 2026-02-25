@@ -19,6 +19,12 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
+            // Tambahkan tanda tanya (?->) untuk mencegah error jika user belum punya role
+            'role' => $this->roles->first()?->name,
+
+            // Ambil nama permission langsung menggunakan fungsi sakti dari Spatie
+            'permissions' => $this->getAllPermissions()->pluck('name'),
+            'token' => $this->token,
         ];
     }
 }
