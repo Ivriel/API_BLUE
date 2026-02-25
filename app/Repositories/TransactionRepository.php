@@ -155,7 +155,7 @@ class TransactionRepository implements TransactionRepositoryInterface
         $destination = $data['address_id'];
 
         $response = Http::withHeaders([
-            'key' => 'LdxaOdZx7940f2f50621abaeBKf4oeJh',
+            'key' => config('rajaongkir.api_key'),
             'Content-Type' => 'application/x-www-form-urlencoded',
         ])->asForm()->post('https://rajaongkir.komerce.id/api/v1/calculate/domestic-cost', [
             'origin' => $origin,
@@ -171,7 +171,7 @@ class TransactionRepository implements TransactionRepositoryInterface
 
         if (isset($result['data']) && is_array($result['data'])) {
             foreach ($result['data'] as $courier) {
-                if ($courier['code'] == $data['shipping'] && $courier['service'] == $data['shipping_type']) {
+                if (strtolower($courier['code']) == strtolower($data['shipping']) && strtoupper($courier['service']) == strtoupper($data['shipping_type'])) {
                     $shippingCost = $courier['cost'];
                 }
             }
