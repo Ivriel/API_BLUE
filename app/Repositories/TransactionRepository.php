@@ -97,6 +97,11 @@ class TransactionRepository implements TransactionRepositoryInterface
             }, 0);
 
             $weight = $this->getTotalWeight($transactionDetails);
+            
+            if ($weight <= 0) {
+                throw new Exception('Berat produk tidak valid. Pastikan semua produk memiliki berat.');
+            }
+            
             $calculation = $this->calculateShippingAndTax($data, $subtotal, $weight);
 
             $transaction->shipping_cost = $calculation['shipping_cost'];

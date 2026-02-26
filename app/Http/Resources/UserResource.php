@@ -21,6 +21,8 @@ class UserResource extends JsonResource
             'email' => $this->email,
             // Tambahkan tanda tanya (?->) untuk mencegah error jika user belum punya role
             'role' => $this->roles->first()?->name,
+            'buyer_id' => $this->buyer?->id,
+            'store_id' => $this->store?->id,
 
             // Ambil nama permission langsung menggunakan fungsi sakti dari Spatie
             'permissions' => $this->getAllPermissions()->pluck('name'),

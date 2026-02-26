@@ -55,11 +55,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::get('product-category', [ProductCategoryController::class, 'index']);
 Route::get('product-category/all/paginated', [ProductCategoryController::class, 'getAllPaginated']);
-Route::get('product-category/slug/{slug}', [ProductCategoryController::class, 'getBySlug']);
+Route::get('product-category/slug/{slug}', [ProductCategoryController::class, 'showBySlug']);
 
 Route::get('product', [ProductController::class, 'index']);
 Route::get('product/all/paginated', [ProductController::class, 'getAllPaginated']);
-Route::get('product/slug/{slug}', [ProductController::class, 'getBySlug']);
+Route::get('product/slug/{slug}', [ProductController::class, 'showBySlug']);
 
 Route::get('store', [StoreController::class, 'index']);
 Route::get('store/{store}', [StoreController::class, 'show']);

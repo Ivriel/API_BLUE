@@ -34,7 +34,14 @@ class Transaction extends Model
         return $query->where('code', 'like', '%'.$search.'%')
             ->orWhere('city', 'like', '%'.$search.'%')
             ->orWhere('payment_status', 'like', '%'.$search.'%')
-            ->orWhere('address', 'like', '%'.$search.'%');
+            ->orWhere('address', 'like', '%'.$search.'%')
+           // Di file Transaction.php pada function scopeSearch
+            ->orWhereHas('buyer', function ($query) use ($search) {
+                $query->where('buyers.user_id', 'like', '%'.$search.'%'); // Tambahkan nama tabelnya
+            })
+            ->orWhereHas('store', function ($query) use ($search) {
+                $query->where('stores.name', 'like', '%'.$search.'%'); // Tambahkan nama tabelnya
+            });
     }
 
     protected $casts = [
