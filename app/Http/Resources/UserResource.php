@@ -15,18 +15,20 @@ class UserResource extends JsonResource
     // untuk memformat data apa aja yang akan ditampilkan
     public function toArray(Request $request): array
     {
+        $role = $this->roles->first()->name ?? '-';
+
         return [
             'id' => $this->id,
+            'profile_picture' => asset('storage/'.$this->profile_picture),
             'name' => $this->name,
             'email' => $this->email,
             // Tambahkan tanda tanya (?->) untuk mencegah error jika user belum punya role
             'role' => $this->roles->first()?->name,
-            'buyer_id' => $this->buyer?->id,
-            'store_id' => $this->store?->id,
-
+            'buyer_id' => $this->when($role === 'buyer', $this->whenLoaded('buyer', fn () => new BuyerResource($this->buyer))),
+            'store_id' => $this->when($role === 'store', $this->whenLoaded('store', fn () => new StoreResource($this->store))),
             // Ambil nama permission langsung menggunakan fungsi sakti dari Spatie
             'permissions' => $this->getAllPermissions()->pluck('name'),
-            'token' => $this->token,
+            'token' => $this->when(isset($this->token), $this->token),
         ];
     }
 }

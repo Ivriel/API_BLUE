@@ -16,7 +16,7 @@ class StoreResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user' => new UserResource($this->user), // this->user itu dari relasi one to one store dengan user
+            'user' => new UserResource($this->whenLoaded('user')), // this->user itu dari relasi one to one store dengan user
             'name' => $this->name,
             'logo' => asset('storage/'.$this->logo),
             'about' => $this->about,
@@ -26,6 +26,8 @@ class StoreResource extends JsonResource
             'address' => $this->address,
             'postal_code' => $this->postal_code,
             'is_verified' => $this->is_verified,
+            'product_count' => $this->when(isset($this->products_count), $this->products_count),
+            'transaction_count' => $this->when(isset($this->transactions_count), $this->transactions_count),
         ];
     }
 }

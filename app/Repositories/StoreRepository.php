@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Interfaces\StoreRepositoryInterface;
 use App\Models\Store;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class StoreRepository implements StoreRepositoryInterface
@@ -47,7 +48,25 @@ class StoreRepository implements StoreRepositoryInterface
 
     public function getById(string $id)
     {
-        $query = Store::where('id', $id);
+        $query = Store::where('id', $id)->withCount(['products', 'transactions'])
+            ->with('user');
+
+        return $query->first();
+    }
+
+    public function getByUsername(string $username)
+    {
+        $query = Store::where('username', $username)->withCount(['products', 'transactions'])
+            ->with('user');
+
+        return $query->first();
+    }
+
+    public function getByUser()
+    {
+        $user = Auth::user();
+        $query = Store::where(' user_id', $user->id)->withCount(['products', 'transactions'])
+            ->with('user');
 
         return $query->first();
     }

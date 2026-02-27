@@ -1,0 +1,52 @@
+services:
+  web:
+    build:
+      context: ./
+      dockerfile: ./.docker/php/Dockerfile.local
+    ports:
+      - ${APP_PORT:-8000}:8000
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - api-blue
+    depends_on:
+      - mysql
+      - redis
+  mysql:
+    image: mysql/mysql-server:${MYSQL_VERSION:-8.0}
+    ports:
+      - ${FORWARD_DB_PORT:-4000}:4000
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-rootpass}
+      MYSQL_DATABASE: ${DB_DATABASE:-api_blue}
+      MYSQL_USER: ${DB_USERNAME:-2EBoj11Go73bXE1.root}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-pPKMjysSRqd1REmd}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - api-blue
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-p${DB_ROOT_PASSWORD}"]
+      retries: 3
+      timeout: 5s
+
+  redis:
+    image: redis:alpine
+    ports:
+      - ${FORWARD_REDIS_PORT:-6379}:6379
+    volumes:
+      - redis-data:/data
+    networks:
+      - api-blue
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      retries: 3
+      timeout: 5s
+
+networks:
+  api-blue:
+    driver: bridge
+
+volumes:
+  mysql-data:
+  redis-data:
