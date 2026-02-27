@@ -24,8 +24,8 @@ class ProductCategoryResource extends JsonResource
             'slug' => $this->slug,
             'tagline' => $this->tagline,
             'description' => $this->description,
-            'product_count' => $this->products_count ?? 0,
-            'children_count' => $this->childrens_count ?? 0,
+        'product_count' => $this->whenLoaded(isset($this->products), fn () => $this->products->count()) ?? 0,
+            'children_count' => $this->whenLoaded(isset($this->childrens), fn () => $this->childrens->count()) ?? 0,
             // Ubah baris ini
             'image' => $this->image ? Storage::url($this->image) : null,
 
