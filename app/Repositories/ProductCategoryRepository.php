@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Interfaces\ProductCategoryRepositoryInterface;
 use App\Models\ProductCategory;
 use Exception;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -28,7 +29,12 @@ class ProductCategoryRepository implements ProductCategoryRepositoryInterface
         }
 
         if ($execute) {
-            return $query->get();
+            $cacheKey = "categories.all.search_{$search}_isParent_{$isParent}_limit_{$limit}";
+            $cacheDuration = now()->addMinutes(60);
+
+            return Cache::remember($cacheKey, $cacheDuration, function () use ($query) {
+                return $query->get();
+            });
         }
 
         return $query;
